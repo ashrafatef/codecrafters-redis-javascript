@@ -6,19 +6,13 @@ console.log("Logs from your program will appear here!");
 // Uncomment this block to pass the first stage
 const server = net.createServer((connection) => {
     connection.on('data', (data)=>{
-        const cleanCommands = formatCommand(data)
-        switch (cleanCommands[0]){
-            case 'PING':
-                connection.write('+PONG\r\n')
-                break
-            default:
-                connection.write('+OK\r\n')
-        }
+        connection.write('+PONG\r\n')
     })
 });
 
 const formatCommand = (buf) =>{
     const convertedBinaryToString = Buffer.from(buf).toString()
+    console.log(convertedBinaryToString)
     return convertedBinaryToString.replace( /(\n)|(\r)|(\*[0-9])|(\$[0-9])/g, ' ').split(' ').filter(st => !!st)
 }
 
