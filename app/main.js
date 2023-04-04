@@ -8,7 +8,7 @@ const server = net.createServer((connection) => {
         const command = formatCommand(data)
         if (command[0].toLowerCase() === 'ping') {
             results = '+PONG'
-        } else if (command[0] === 'ECHO') {
+        } else if (command[0].toLowerCase() === 'echo') {
             command.shift()
             results = handleEchoCommand(command)
         } else {
