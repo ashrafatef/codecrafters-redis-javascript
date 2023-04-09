@@ -2,6 +2,8 @@ const net = require("net");
 
 console.log("Logs from your program will appear here!");
 
+const map = {}
+
 const server = net.createServer((connection) => {
     connection.on('data', (data)=>{
         let results;
@@ -11,8 +13,13 @@ const server = net.createServer((connection) => {
         } else if (command[0].toLowerCase() === 'echo') {
             command.shift()
             results = handleEchoCommand(command)
+        } else if(command[0].toLowerCase() === 'set'){
+            map[command[1]] = command[2].toString()
+            results = '+OK'
+        } else if(command[0].toLowerCase() === 'get'){
+            results = `+${map[command[1]].toString()}`
         } else {
-            connection.write(`-Error message : unkown command  ${command[0]}\r\n`)
+            connection.write(`-Error message : unknown command  ${command[0]}\r\n`)
         }
         return connection.write(`${results}\r\n`)
     })
